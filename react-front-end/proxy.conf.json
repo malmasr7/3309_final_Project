@@ -1,0 +1,9 @@
+{
+"/api": {
+        "target": "https://se3309-final-project-amali28.c9users.io:8082",
+        "secure": false,
+        "changeOrigin": true,
+        "logLevel": "info"
+    }
+    
+}

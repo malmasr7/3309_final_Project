@@ -1,0 +1,14 @@
+1. a) Retrieve all the songs from a playlist           --Done  /playlistSongs/id
+   b) Retrieve all the songs from a album              --Done  /album
+   c) Retrieve a specific song by name                 --Done  /song
+   
+2. a) Add new song to the song by name                 --Done    /addNewSong
+   b) Add existing song to the playlist relation       --Done    /addSong
+   
+3. Top Charts (HitCounter)
+4. Find songs from date or beyond (> 2000)
+5. Add new playlist by selecting songs                   -- Done but its a combination of two queries (add playlist, then add songs to playlist)
+
+6. Quit
+
+
