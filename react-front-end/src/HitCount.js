@@ -33,11 +33,13 @@ export default class Example extends React.Component {
         <Table>
          <thead>
           <tr>
-            <th>#</th>
+            <th>Song ID</th>
             <th>Song Name</th>
             <th>Genre </th>
+            <th>Album Name </th>
             <th>Album ID</th>
-            <th>Hit Counter</th>
+            <th>Artist Name </th>
+            <th>Amount of Plays</th>
           </tr>
          </thead>
         
@@ -45,9 +47,12 @@ export default class Example extends React.Component {
         {songs.map(result => (
         <tr>
           <td>{result.songID}</td>
-          <td>{result.albumID} </td>
-          <td>{result.hitCounter} </td>
           <td>{result.songName} </td>
+          <td>{result.genre} </td>
+          <td>{result.albumName} </td>
+          <td>{result.albumID} </td>
+          <td>{result.artistName} </td>
+          <td>{result.hitCounter} </td>
         </tr>
         ))}
         </tbody>

@@ -88,7 +88,7 @@ app.get('/userplaylists/:id', (req,res)=> {
     console.log("This Playlist Is working");
     var userID= req.params.id
     console.log(userID);
-    var queryString= "Select distinct * from playlist where userID=" + userID.toString();
+    var queryString= "Select distinct * from playlist where userID=" + userID.toString() + " ORDER BY playlistID DESC";
     getConnection().query(queryString, (err, rows, fields)=>{
 
         res.json(rows);
@@ -291,7 +291,7 @@ app.get('/searchretrieve/:name', (req,res)=> {
     
     var _songName= req.params.name;
       
-        var queryString= " select songName, songID, hitCounter from song where songName= '"+_songName+"';";
+        var queryString= " select aa.artistName, s.songName,s.albumID, a.albumName, s.songID, s.hitCounter from song s join album a on a.albumID=s.albumID join songinformation si on si.songID=s.songID join artist aa on aa.artistID=si.artistID  where songName= '"+_songName+"';";
         getConnection().query(queryString, (err, rows, fields)=>{
 
             res.json(rows);
@@ -308,7 +308,7 @@ app.get('/searchplaylist/:playlist', (req,res)=> {
     
     let _playlistName= req.params.playlist;
       
-        var queryString= " select playlistID, dataCreated, playlistName from playlist where playlistName= '"+_playlistName+"';";
+        var queryString= " select playlistID, userID, dataCreated, playlistName from playlist where playlistName= '"+_playlistName+"';";
         getConnection().query(queryString, (err, rows, fields)=>{
 
             res.json(rows);
@@ -326,7 +326,7 @@ app.get('/searchalbum/:album', (req,res)=> {
     
     let _albumName= req.params.album;
       
-        var queryString= " select albumID, date, albumName, genre from album where albumName= '"+_albumName+"';";
+        var queryString= " select  a.albumID, a.date, a.albumName, a.genre from album a where albumName= '"+_albumName+"';";
         getConnection().query(queryString, (err, rows, fields)=>{
 
             res.json(rows);
@@ -346,7 +346,7 @@ app.get('/searchalbum/:album', (req,res)=> {
     let genre_Name= 'rock';
         
        
-        var queryString= 'select s.songID, s.albumID, hitCounter, songName, genre from song s join album a on s.albumID=a.albumID where genre = "'+ genre_Name +'" order by hitCounter DESC limit 25' ;
+        var queryString= 'select aa.artistName, s.songID, s.albumID, a.albumName , s.hitCounter, s.songName, a.genre from song s join album a on s.albumID=a.albumID join songinformation si on si.songID=s.songID join artist aa on aa.artistID=si.artistID where genre = "'+ genre_Name +'" order by hitCounter DESC limit 25' ;
         getConnection().query(queryString, (err, rows, fields)=>{
 
             res.json(rows);
@@ -366,6 +366,22 @@ app.get('/searchalbum/:album', (req,res)=> {
         getConnection().query(queryString, (err, rows, fields)=>{
 
             return res.json(rows);
+    
+            if (err){
+                throw err; 
+            }    
+    
+        });
+    }
+    );
+    
+    app.get('/play/:songID', (req,res)=> {
+        var song_ID= req.params.songID;
+  
+        var queryString= 'UPDATE song set hitCounter= (hitCounter +1) where songID=' + song_ID.toString() ;
+        getConnection().query(queryString, (err, rows, fields)=>{
+
+            return res.json({Play: "Successfully Played"});
     
             if (err){
                 throw err; 

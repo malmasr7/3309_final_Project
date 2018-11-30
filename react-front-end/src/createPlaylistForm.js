@@ -1,11 +1,14 @@
 import React from 'react';
-import { Col, Row, Button, Form, FormGroup, Label, Input, FormText, ListGroup, Table, ListGroupItem, ButtonGroup,  Badge } from 'reactstrap';
+import { Col, Row, Button, Form, FormGroup, Label, Input, FormText, ListGroup, Table, ListGroupItem, ButtonGroup,  Badge, Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 
 export default class Example extends React.Component {
   
  
   constructor (props){
     super(props);
+    
+   this.toggle = this.toggle.bind(this);
+    this.select = this.select.bind(this);
 
     this.state={
       checked: false,
@@ -14,19 +17,23 @@ export default class Example extends React.Component {
       isloaded: false,
       playlistsToBeAdded: [],
       allPlaylist:[],
-      
+      songIDs: [],
       newPlaylist: "",
       currentplaylist:1,
       addedsong:1,
+      songIDHits:1,
+      albumValue: "",
     };
     
     this.handleClick= this.handleClick.bind(this);
     this.handleClickNew= this.handleClickNew.bind(this);
     this.handleClickAddSong=this.handleClickAddSong.bind(this);
-    
+    this.handleClickHitCounter= this.handleClickHitCounter.bind(this);
     this.handleChange= this.handleChange.bind(this);
     this.handleChangecurrent= this.handleChangecurrent.bind(this);
     this.handleChangesongID=this.handleChangesongID.bind(this);
+    this.handleChangeHitCounter= this.handleChangeHitCounter.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
 
   
@@ -38,7 +45,10 @@ export default class Example extends React.Component {
     }  
   handleChangesongID(event) {
     this.setState({addedsong: event.target.value});
-    }  
+    } 
+  handleChangeHitCounter(event) {
+    this.setState({songIDHits: event.target.value});
+    } 
  
   getAllplaylists(){
     fetch('https://se3309-final-project-amali28.c9users.io:8081/userplaylists/12345')
@@ -70,6 +80,13 @@ export default class Example extends React.Component {
     });
   }
   
+  increaseHitCounter(songIDObj){
+    fetch('https://se3309-final-project-amali28.c9users.io:8081/play/'+songIDObj.songID)
+    .then(res=> res.json())
+    .then(json => {
+   this.setState({})
+    });
+  }
   
   
   handleClickAddSong(){
@@ -89,11 +106,46 @@ export default class Example extends React.Component {
     this.addnewPlaylist(nameobj);
     this.getAllplaylists();
    console.error(nameobj);
-   
   }
+  
+  handleClickHitCounter(){
+    var songIDObj= {"songID": this.state.songIDHits};
+    this.increaseHitCounter(songIDObj);
+   console.error(songIDObj);
+  }
+  
+   toggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  select(event) {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
+      albumValue: event.target.innerText
+    });
+  }
+  
+  compomentDidMount(){
+     fetch('https://se3309-final-project-amali28.c9users.io:8081/userplaylists/12345')
+    .then(res=> res.json())
+    .then(json => {
+   this.setState({
+        isloaded: true,
+        songsID: json,
+      })
+    });
+  }
+  
+  handleChange(event) {
+    this.setState({newPlaylist: event.target.value});
+  }
+  
   render() {
    
     var{isloaded, allPlaylist}= this.state;
+    var{isloaded, songsID}= this.state;
   
     return (
           
@@ -105,19 +157,22 @@ export default class Example extends React.Component {
               <Input type="text" name="Playlist" id="exampleEmail" placeholder="Enter playlist Name..." 
                  value={this.state.value}
                   onChange={this.handleChange}/>
+                <br></br>
               <Button  onClick= {this.handleClickNew} id="createPlaylist">Add New Playlist</Button>
               <br></br>
               <hr></hr> 
               
-                  <div>
+                <h3 for="Playlist">Add a Song to a Playlist</h3>
+                   <div>
                         <Input type="text" name="currentPlaylist" placeholder="Enter playlist ID"
                               value={this.state.value}
                                onChange={this.handleChangecurrent}/>
+                              <br />
                         <Input type="text" name="songID" placeholder="Enter songID "
                                   value={this.state.value}
                                    onChange={this.handleChangesongID}/>
-                                
-                          <button onClick= {this.handleClickAddSong} >Add song to playlist</button>
+                                <br></br>
+                          <Button onClick= {this.handleClickAddSong} >Add song to playlist</Button>
                   </div>
 
             </FormGroup>
@@ -125,8 +180,11 @@ export default class Example extends React.Component {
         </Row>
          
         <br></br>
+          <h3 for="Playlist">Retrieve All Playlists</h3>
+        <br></br>
         <Button  onClick= {this.handleClick}  id="createPlaylist">Get All playlists</Button>
-      
+        <br></br>
+        <br></br>
           
           
       <Table>
@@ -149,14 +207,21 @@ export default class Example extends React.Component {
         ))}
         </tbody>
         </Table>
-          
+          <hr></hr>
+          <br /> <br />
+          <h4>Play a Song</h4>
+          <br></br>
+             <div>
+                    <Input type="text" name="currentPlaylist" placeholder="Enter Song ID"
+                              value={this.state.value}
+                               onChange={this.handleChangeHitCounter}/>
+                               <br></br>
+                        <Button onClick= {this.handleClickHitCounter} >Play</Button>        
+             </div>                 
+                               
   </Form>
   
     );
-    
-    
-   
-
   }
 }
 

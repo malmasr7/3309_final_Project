@@ -94,9 +94,12 @@ processPlayListQuery(nameobj){
         <Table option={false}>
          <thead>
           <tr>
-            <th>#</th>
+            <th>Song ID</th>
             <th>Song Name</th>
-            <th>Hit Counter</th>
+            <th>Artist Name</th>
+            <th>Album Name</th>
+            <th>Album ID </th>
+            <th>Amount of Plays</th>
           </tr>
          </thead>
         
@@ -105,6 +108,9 @@ processPlayListQuery(nameobj){
         <tr>
           <td>{result.songID}</td>
           <td>{result.songName} </td>
+          <td>{result.artistName} </td>
+          <td>{result.albumName} </td>
+          <td>{result.albumID}</td>
           <td>{result.hitCounter}</td>
         </tr>
         ))}
@@ -116,7 +122,7 @@ processPlayListQuery(nameobj){
          <Table>
          <thead>
           <tr>
-            <th>#</th>
+            <th>Album ID</th>
             <th>Album Name</th>
             <th>Date Released</th>
             <th>Genre</th>
@@ -139,9 +145,10 @@ processPlayListQuery(nameobj){
          <Table>
          <thead>
           <tr>
-            <th>#</th>
+            <th>Playlist ID</th>
             <th>Playlist Name</th>
             <th>Date Created</th>
+            <th>User ID</th>
           </tr>
          </thead>
         <tbody>
@@ -150,6 +157,7 @@ processPlayListQuery(nameobj){
           <td>{res.playlistID}</td>
           <td>{res.playlistName}</td>
           <td>{res.dataCreated} </td>
+          <td>{res.userID} </td>
         </tr>
         ))}
         </tbody>

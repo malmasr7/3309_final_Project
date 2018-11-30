@@ -57,7 +57,7 @@ export default class Example extends React.Component {
   
     processQuery(nameobj) {
      let albumID= 10;
-     fetch('https://se3309-final-project-amali28.c9users.io:8081/addnewsong/'+nameobj.name+'/'+ this.state.albumValue, {mode: 'no-cors'})
+     fetch('https://se3309-final-project-amali28.c9users.io:8081/addnewsong/'+nameobj.name+'/'+ this.state.albumValue)
       .then(res=> res.json())
       .then(json => {
       this.setState({
@@ -115,7 +115,7 @@ export default class Example extends React.Component {
         
       </Dropdown>
             <br></br>
-            <Button onClick= {this.handleClick} id="createSong">Create</Button>
+            <Button onClick= {this.handleClick} id="createSong">Add</Button>
             <br></br>
             <br></br>
      <br></br><br></br>
