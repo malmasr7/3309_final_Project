@@ -29,7 +29,7 @@ export default class Example extends React.Component {
       
      <Form>
      <br></br><br></br>
-        <h4><b>Top Charts</b></h4>
+        <h4><b>Songs</b></h4>
         <Table>
          <thead>
           <tr>
@@ -45,10 +45,9 @@ export default class Example extends React.Component {
         {songs.map(result => (
         <tr>
           <td>{result.songID}</td>
-          <td>{result.songName} </td>
-          <td>{result.genre} </td>
           <td>{result.albumID} </td>
-          <td>{result.hitCounter}</td>
+          <td>{result.hitCounter} </td>
+          <td>{result.songName} </td>
         </tr>
         ))}
         </tbody>

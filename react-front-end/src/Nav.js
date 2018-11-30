@@ -6,6 +6,7 @@ import Search from './Search';
 import AddSong from './AddSong';
 import HitCount from './HitCount';
 import CreatePlayList from './createPlaylistForm';
+import Quit from './Quit';
 
 export default class Example extends React.Component {
   render() {
@@ -13,7 +14,7 @@ export default class Example extends React.Component {
       <div>
         <Nav>
           <NavItem>
-          <NavLink href='/'>Create Playlist</NavLink>
+          <NavLink href='/'>Playlists</NavLink>
           </NavItem>
           <NavItem>
             <NavLink href="/search/">Search</NavLink>
@@ -23,6 +24,9 @@ export default class Example extends React.Component {
           </NavItem>
           <NavItem>
             <NavLink href="/addsong">Add Song</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="/quit/">Quit</NavLink>
           </NavItem>
         </Nav>
         <hr />
@@ -37,6 +41,9 @@ export default class Example extends React.Component {
         </Router>
         <Router>
         <Route path="/addsong/" component = {AddSong} /> 
+        </Router>
+        <Router>
+        <Route path="/quit/" component = {Quit} />
         </Router>
 
       </div>

@@ -57,16 +57,16 @@ connection.query(queryString, (err, rows, fields)=>{
 
 );
 
-app.get('/playlist/:userID/:playlistID/:playlistName', (req, res) =>
+app.get('/playlist/:userID/:playlistName', (req, res) =>
 {
     
-    var MyplaylistID= req.params.playlistID;
+   
      var MyuserID= req.params.userID;
      var MyplaylistName= req.params.playlistName;
     
     console.log(req.body.playlistID);
 
-    var queryString= 'INSERT into playlist VALUES ('+ MyplaylistID.toString() +  ', curdate(),' + MyuserID.toString() + ',"'+ MyplaylistName.toString()+'")';
+    var queryString= 'INSERT into playlist  (dataCreated, userID , playlistName) VALUES( '  +  ' curdate(),' + MyuserID.toString() + ',"'+ MyplaylistName.toString()+'")';
 
     getConnection().query(queryString, (err, rows, fields)=>{
         
@@ -88,7 +88,7 @@ app.get('/userplaylists/:id', (req,res)=> {
     console.log("This Playlist Is working");
     var userID= req.params.id
     console.log(userID);
-    var queryString= "Select * from playlist where userID=" + userID.toString();
+    var queryString= "Select distinct * from playlist where userID=" + userID.toString();
     getConnection().query(queryString, (err, rows, fields)=>{
 
         res.json(rows);
@@ -173,6 +173,20 @@ app.get('/userplaylists/:id', (req,res)=> {
     }
     )
     
+    app.get('/album', (req,res)=> {
+        
+        var queryString= 'Select albumID from album where albumID >120 and albumID <150'; 
+        getConnection().query(queryString, (err, rows, fields)=>{
+
+            res.json(rows);
+    
+            if (err){
+                throw err; 
+            }    
+    
+        })
+    }
+    )
     
     app.get('/addnewsong/:songName/:albumID', (req,res)=> {
         console.log("boom3");
@@ -184,7 +198,7 @@ app.get('/userplaylists/:id', (req,res)=> {
         var queryString= 'insert into song (albumID, hitCounter, songName) VALUES (' + album_ID.toString() + ',1,"' + song_name.toString() + '")'; 
         getConnection().query(queryString, (err, rows, fields)=>{
 
-            res.json({Song: "Sucessfully Added"});
+            res.json({song: "Sucessfully added"});
     
             if (err){
                 throw err; 
@@ -321,9 +335,9 @@ app.get('/searchalbum/:album', (req,res)=> {
                 throw err; 
             }    
     
-        })
+        });
     }
-    )
+    );
     
     
         app.get('/topchart', (req,res)=> {
@@ -341,9 +355,26 @@ app.get('/searchalbum/:album', (req,res)=> {
                 throw err; 
             }    
     
-        })
+        });
     }
-    )
+    );
+    
+     
+        app.get('/newaddedsong', (req,res)=> {
+  
+        var queryString= 'select songID, s.albumID, hitCounter, songName,genre from song s join album a on s.albumID=a.albumID order by songID DESC limit 10' ;
+        getConnection().query(queryString, (err, rows, fields)=>{
+
+            return res.json(rows);
+    
+            if (err){
+                throw err; 
+            }    
+    
+        });
+    }
+    );
+    
     
 
 
